@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Zocadama 8051 Studio – Learn. Simulate. Build.</title>
+  <meta name="description" content="A free workspace for learning the 8051 microcontroller: lessons, a CPU simulator and a circuit builder. Early version.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="wrap header-row">
+      <a class="brand" href="#top" aria-label="Zocadama 8051 Studio home">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-text">Zocadama <strong>8051 Studio</strong></span>
+      </a>
+      <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
+      <nav id="site-nav" class="site-nav" aria-label="Main">
+        <a href="#explorer">Chip explorer</a>
+        <a href="#pillars">Learn · Simulate · Build</a>
+        <a href="#roadmap">Roadmap</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <section class="hero" id="top">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <p class="badge badge-early">Early version – the simulator is not built yet</p>
+          <h1>
+            <span class="w-learn">Learn.</span>
+            <span class="w-sim">Simulate.</span>
+            <span class="w-build">Build.</span>
+          </h1>
+          <p class="lead">
+            A free workspace for understanding the 8051 microcontroller, from your first
+            register to your first circuit. We are building it step by step, and this page
+            always says what works today and what does not.
+          </p>
+          <div class="actions">
+            <a class="btn btn-primary" href="#explorer">Explore the chip</a>
+            <a class="btn btn-ghost" href="#roadmap">See what is built</a>
+          </div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="port-stack">
+            <span class="port p0">P0</span>
+            <span class="port p1">P1</span>
+            <span class="port p2">P2</span>
+            <span class="port p3">P3</span>
+          </div>
+          <p class="art-caption">Four 8-bit ports, 32 pins you control.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="explorer">
+      <div class="wrap">
+        <h2>Explore the 8051 pins</h2>
+        <p class="section-lead">
+          This is a reference diagram of the classic 40-pin DIP package, not a simulator.
+          Select any pin to see what it does.
+        </p>
+
+        <div class="explorer">
+          <div class="chip-box">
+            <div id="chip" class="chip" role="group" aria-label="8051 40-pin chip diagram"></div>
+          </div>
+
+          <aside class="info-panel" aria-live="polite">
+            <ul class="legend" aria-label="Pin colour key">
+              <li><span class="dot g-p0"></span> Port 0</li>
+              <li><span class="dot g-p1"></span> Port 1</li>
+              <li><span class="dot g-p2"></span> Port 2</li>
+              <li><span class="dot g-p3"></span> Port 3</li>
+              <li><span class="dot g-ctrl"></span> Power and control</li>
+            </ul>
+            <div id="pin-info" class="pin-info">
+              <h3>No pin selected</h3>
+              <p>Select a pin on the chip to read what it is for.</p>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-tint" id="pillars">
+      <div class="wrap">
+        <h2>Three parts, built in order</h2>
+        <div class="cards">
+          <article class="card card-learn">
+            <p class="badge badge-planned">Planned</p>
+            <h3>Learn</h3>
+            <p>Short lessons on registers, memory, ports, timers and interrupts, each with small examples you can read and run.</p>
+          </article>
+          <article class="card card-sim">
+            <p class="badge badge-planned">Planned</p>
+            <h3>Simulate</h3>
+            <p>An 8051 CPU you can step through one instruction at a time, with registers and memory visible. It will be checked against known programs before we call it working.</p>
+          </article>
+          <article class="card card-build">
+            <p class="badge badge-planned">Planned</p>
+            <h3>Build</h3>
+            <p>A circuit designer with a component library, such as LEDs, switches and displays, wired to the simulated chip.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="roadmap">
+      <div class="wrap">
+        <h2>Roadmap</h2>
+        <p class="section-lead">Honest status. A step is only marked Done after it has been tested.</p>
+        <ol class="roadmap">
+          <li>
+            <span class="badge badge-done">Done once you test it</span>
+            <h3>Phase 0 – Project setup</h3>
+            <p>Website skeleton, pin explorer, and this roadmap, saved in GitHub.</p>
+          </li>
+          <li>
+            <span class="badge badge-planned">Planned</span>
+            <h3>Phase 1 – Learning content</h3>
+            <p>First lessons and a glossary of 8051 terms.</p>
+          </li>
+          <li>
+            <span class="badge badge-planned">Planned</span>
+            <h3>Phase 2 – Simulator core</h3>
+            <p>Registers, memory, and a few instructions, each tested before the next is added.</p>
+          </li>
+          <li>
+            <span class="badge badge-planned">Planned</span>
+            <h3>Phase 3 – Assembler and full instruction set</h3>
+            <p>Write assembly in the browser and step through it.</p>
+          </li>
+          <li>
+            <span class="badge badge-planned">Planned</span>
+            <h3>Phase 4 – Circuit designer</h3>
+            <p>Components, wiring, and connecting them to the simulated ports.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p><strong>Zocadama 8051 Studio</strong> – Learn. Simulate. Build.</p>
+      <p class="small">Early version, <span id="year"></span>.</p>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Simulator – Zocadama 8051 Studio</title>
+  <meta name="description" content="An early 8051 CPU simulator: load hexadecimal machine code, step through it and watch registers, flags and RAM change.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="ui/simulator.css">
+</head>
+<body>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="wrap header-row">
+      <a class="brand" href="index.html" aria-label="Zocadama 8051 Studio home">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-text">Zocadama <strong>8051 Studio</strong></span>
+      </a>
+      <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
+      <nav id="site-nav" class="site-nav" aria-label="Main">
+        <a href="index.html">Home</a>
+        <a href="index.html#explorer">Chip explorer</a>
+        <a href="simulator.html" aria-current="page">Simulator</a>
+        <a href="index.html#roadmap">Roadmap</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <section class="hero sim-hero" id="top">
+      <div class="wrap">
+        <p class="badge badge-early">Early version – a small, tested subset of the 8051</p>
+        <h1>8051 <span class="w-sim">Simulator</span></h1>
+        <p class="lead">
+          Load a small program as hexadecimal machine code, step through it one instruction
+          at a time, and watch the registers, flags and RAM change.
+          Assembly-language input is <strong>not available yet</strong>.
+        </p>
+        <div class="actions">
+          <a class="btn btn-primary" href="#simulator">Start simulating</a>
+          <a class="btn btn-ghost" href="#limits">What it can and cannot do</a>
+          <a class="btn btn-ghost" href="index.html">Back to the homepage</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="how">
+      <div class="wrap">
+        <h2>How to use it</h2>
+        <div class="cards">
+          <article class="card card-learn">
+            <h3>1. Pick a program</h3>
+            <p>Choose an example, or type your own bytes such as <code>74 25 24 17 80 FE</code>. Each byte is two hexadecimal digits.</p>
+          </article>
+          <article class="card card-sim">
+            <h3>2. Step or Run</h3>
+            <p><strong>Step</strong> runs one instruction. <strong>Run</strong> keeps going until a breakpoint, a fault, or a jump-to-itself (the usual &ldquo;finished&rdquo;). <strong>Pause</strong> and <strong>Reset</strong> do what they say.</p>
+          </article>
+          <article class="card card-build">
+            <h3>3. Read the panels</h3>
+            <p>Highlighted values changed on the last step. The &ldquo;Last instruction&rdquo; panel lists every change, and a red message explains any fault.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-tint" id="simulator">
+      <div class="wrap sim">
+        <h2>Simulator</h2>
+        <noscript><p>This page needs JavaScript to run the simulator.</p></noscript>
+        <div id="simulator-root"></div>
+      </div>
+    </section>
+
+    <section class="section" id="reference">
+      <div class="wrap sim">
+        <h2>Instruction reference</h2>
+        <p class="section-lead">
+          Because there is no assembler yet, programs are written as bytes. This table is built from the
+          simulator&rsquo;s own instruction table, so it always matches what actually runs.
+          Any opcode not listed stops the CPU with a message.
+        </p>
+        <details class="sim-details">
+          <summary>Show the instruction table</summary>
+          <div id="opcode-reference-root"></div>
+        </details>
+      </div>
+    </section>
+
+    <section class="section section-tint" id="limits">
+      <div class="wrap">
+        <h2>What it can and cannot do</h2>
+        <p class="section-lead">This is <strong>not</strong> a full 8051 or AT89S52 simulator. It models a small, tested subset.</p>
+        <div class="limits">
+          <article class="card card-sim">
+            <h3>Works today</h3>
+            <ul>
+              <li>Hexadecimal machine-code input and five examples</li>
+              <li>Step, Run, Pause, Reset, run speed and breakpoints</li>
+              <li>A, B, PC, SP, PSW with the CY, AC, OV and parity flags</li>
+              <li>Register banks R0&ndash;R7 and 256 bytes of internal RAM, including upper RAM reached indirectly</li>
+              <li>Moves, add/subtract with carry, logic, jumps, DJNZ, LCALL/RET and the stack</li>
+              <li>Clear messages for unsupported instructions and other faults</li>
+            </ul>
+          </article>
+          <article class="card card-build">
+            <h3>Not available yet</h3>
+            <ul>
+              <li>Assembly-language input (an assembler is planned)</li>
+              <li>Timers, interrupts and the serial port</li>
+              <li>DPTR instructions, MOVC and MOVX, external memory</li>
+              <li>MUL, DIV, rotates and most bit instructions</li>
+              <li>Real timing: it counts instructions, not machine cycles</li>
+              <li>Port pins and circuits (ports are stored values only)</li>
+            </ul>
+          </article>
+        </div>
+        <p class="small-note">
+          Technical details and every simulator choice are in <a href="docs/SIMULATOR.md">docs/SIMULATOR.md</a>.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p><strong>Zocadama 8051 Studio</strong> – Learn. Simulate. Build.</p>
+      <p class="small">Early version, <span id="year"></span>. <a href="index.html" style="color:#d9dcf5">Back to the homepage</a></p>
+    </div>
+  </footer>
+
+  <script>window.__missingScripts = [];</script>
+  <script src="main.js" onerror="__missingScripts.push('main.js')"></script>
+  <script src="engine/memory.js" onerror="__missingScripts.push('engine/memory.js')"></script>
+  <script src="engine/instructions.js" onerror="__missingScripts.push('engine/instructions.js')"></script>
+  <script src="engine/cpu.js" onerror="__missingScripts.push('engine/cpu.js')"></script>
+  <script src="engine/hex.js" onerror="__missingScripts.push('engine/hex.js')"></script>
+  <script src="engine/samples.js" onerror="__missingScripts.push('engine/samples.js')"></script>
+  <script src="ui/simulator-ui.js" onerror="__missingScripts.push('ui/simulator-ui.js')"></script>
+  <script src="ui/opcode-reference.js" onerror="__missingScripts.push('ui/opcode-reference.js')"></script>
+  <script>
+    // If any file failed to load, say exactly which one instead of showing an empty page.
+    (function () {
+      if (window.Z8051 && window.Z8051.simulator) { return; }
+      var host = document.getElementById("simulator-root");
+      if (host.childNodes.length > 0) { return; }       // the simulator reported its own error
+      var missing = window.__missingScripts.length ? window.__missingScripts : ["(unknown - check the browser console with F12)"];
+      var pre = document.createElement("pre");
+      pre.setAttribute("role", "alert");
+      pre.style.cssText = "background:#fff1f4;border:2px solid #b3123a;border-radius:10px;padding:1rem;white-space:pre-wrap;";
+      pre.textContent = [
+        "Setup problem: the simulator could not start.",
+        "",
+        "These files could not be loaded:",
+        "  " + missing.join("\n  "),
+        "",
+        "simulator.html must sit in the project folder next to index.html, styles.css and the folders engine/ and ui/.",
+        "Fix: use the whole project folder exactly as unzipped. Do not copy single files out of the folders."
+      ].join("\n");
+      host.appendChild(pre);
+    })();
+  </script>
+</body>
+</html>

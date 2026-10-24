@@ -20,6 +20,7 @@
       <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
       <nav id="site-nav" class="site-nav" aria-label="Main">
         <a href="#explorer">Chip explorer</a>
+        <a href="simulator.html">Simulator</a>
         <a href="#pillars">Learn · Simulate · Build</a>
         <a href="#roadmap">Roadmap</a>
       </nav>
@@ -31,7 +32,7 @@
     <section class="hero" id="top">
       <div class="wrap hero-grid">
         <div class="hero-copy">
-          <p class="badge badge-early">Early version – the simulator is not built yet</p>
+          <p class="badge badge-early">Early version – the simulator runs a small, tested subset so far</p>
           <h1>
             <span class="w-learn">Learn.</span>
             <span class="w-sim">Simulate.</span>
@@ -44,6 +45,7 @@
           </p>
           <div class="actions">
             <a class="btn btn-primary" href="#explorer">Explore the chip</a>
+            <a class="btn btn-ghost" href="simulator.html">Try the simulator</a>
             <a class="btn btn-ghost" href="#roadmap">See what is built</a>
           </div>
         </div>
@@ -99,9 +101,10 @@
             <p>Short lessons on registers, memory, ports, timers and interrupts, each with small examples you can read and run.</p>
           </article>
           <article class="card card-sim">
-            <p class="badge badge-planned">Planned</p>
+            <p class="badge badge-early">Early version</p>
             <h3>Simulate</h3>
-            <p>An 8051 CPU you can step through one instruction at a time, with registers and memory visible. It will be checked against known programs before we call it working.</p>
+            <p>An 8051 CPU you can step through one instruction at a time, with registers, flags and RAM visible. The first version runs a small, tested subset of instructions from hexadecimal machine code. There is no assembler yet.</p>
+            <p><a class="btn btn-primary" href="simulator.html">Open the simulator</a></p>
           </article>
           <article class="card card-build">
             <p class="badge badge-planned">Planned</p>
@@ -118,7 +121,7 @@
         <p class="section-lead">Honest status. A step is only marked Done after it has been tested.</p>
         <ol class="roadmap">
           <li>
-            <span class="badge badge-done">Done once you test it</span>
+            <span class="badge badge-done">Done</span>
             <h3>Phase 0 – Project setup</h3>
             <p>Website skeleton, pin explorer, and this roadmap, saved in GitHub.</p>
           </li>
@@ -128,9 +131,9 @@
             <p>First lessons and a glossary of 8051 terms.</p>
           </li>
           <li>
-            <span class="badge badge-planned">Planned</span>
+            <span class="badge badge-early">In progress</span>
             <h3>Phase 2 – Simulator core</h3>
-            <p>Registers, memory, and a few instructions, each tested before the next is added.</p>
+            <p>First version is ready to try: registers, flags, 256 bytes of RAM and a small set of tested instructions. More instructions are added one tested step at a time. <a href="simulator.html">Open the simulator</a>.</p>
           </li>
           <li>
             <span class="badge badge-planned">Planned</span>

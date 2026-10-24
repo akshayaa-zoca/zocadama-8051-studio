@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Simulator screen tests – Zocadama 8051 Studio</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../ui/simulator.css">
+  <style>
+    body { background: #fff; color: #12183f; }
+    .t-wrap { max-width: 56rem; margin: 2rem auto; padding: 0 1rem; font-family: system-ui, "Segoe UI", sans-serif; }
+    #summary { font-size: 1.4rem; font-weight: 800; padding: .8rem 1rem; border-radius: 10px; }
+    #summary.pass { background: #d3f5ef; color: #006b62; }
+    #summary.fail { background: #ffd9e0; color: #b3123a; }
+    .t-wrap h2 { margin: 1.5rem 0 .4rem; font-size: 1.1rem; }
+    .t-wrap ul { list-style: none; padding: 0; margin: 0; }
+    .t-wrap li { padding: .25rem .5rem; border-bottom: 1px solid #eceefb; }
+    li.pass::before { content: "PASS  "; color: #006b62; font-weight: 800; font-family: monospace; }
+    li.fail::before { content: "FAIL  "; color: #b3123a; font-weight: 800; font-family: monospace; }
+    .err { display: block; color: #b3123a; font-family: monospace; margin-left: 3.5rem; }
+    #setup-problem pre { background: #fff1f4; border: 2px solid #b3123a; border-radius: 10px; padding: 1rem; white-space: pre-wrap; }
+    #sandbox { margin-top: 2rem; padding-top: 1rem; border-top: 3px dashed #c9cdea; }
+  </style>
+</head>
+<body>
+  <div class="t-wrap">
+    <h1>Simulator screen tests</h1>
+    <p>These build the real simulator panel on this page and use it like a person would: typing hexadecimal and pressing the real buttons. They take a few seconds. The simulator copies appear briefly at the bottom while a test runs.</p>
+    <p id="summary">Running...</p>
+    <div id="setup-problem" hidden></div>
+    <div id="results"></div>
+    <div id="sandbox" class="sim" aria-hidden="true"></div>
+  </div>
+
+  <script>window.__missingScripts = [];</script>
+  <script src="../engine/memory.js" onerror="__missingScripts.push('engine/memory.js')"></script>
+  <script src="../engine/instructions.js" onerror="__missingScripts.push('engine/instructions.js')"></script>
+  <script src="../engine/cpu.js" onerror="__missingScripts.push('engine/cpu.js')"></script>
+  <script src="../engine/hex.js" onerror="__missingScripts.push('engine/hex.js')"></script>
+  <script src="../engine/samples.js" onerror="__missingScripts.push('engine/samples.js')"></script>
+  <script src="../ui/simulator-ui.js" onerror="__missingScripts.push('ui/simulator-ui.js')"></script>
+  <script src="../ui/opcode-reference.js" onerror="__missingScripts.push('ui/opcode-reference.js')"></script>
+  <script src="test-helpers.js" onerror="__missingScripts.push('tests/test-helpers.js')"></script>
+  <script src="ui.integration.test.js" onerror="__missingScripts.push('tests/ui.integration.test.js')"></script>
+  <script>
+    (function () {
+      var Zs = window.Z8051;
+      var ready = Zs && Zs.mountSimulator && Zs.mountOpcodeReference && window.Z8051Test && window.Z8051Test.tests.length > 0;
+      var summary = document.getElementById("summary");
+      if (!ready) {
+        summary.textContent = "Setup problem: the tests did not start."; summary.className = "fail";
+        var box = document.getElementById("setup-problem"); box.hidden = false;
+        var pre = document.createElement("pre");
+        var missing = window.__missingScripts.length ? window.__missingScripts : ["(unknown - check the browser console with F12)"];
+        pre.textContent = "These files could not be loaded:\n  " + missing.join("\n  ") +
+          "\n\nThis page must stay inside the project folder's tests/ folder, with engine/ and ui/ next to it.\n" +
+          "Fix: use the whole project folder exactly as unzipped.";
+        box.appendChild(pre); return;
+      }
+      window.Z8051Test.runAsync().then(function (out) {
+        summary.textContent = out.passed + " passed, " + out.failed + " failed, " + out.total + " total";
+        summary.className = out.failed === 0 ? "pass" : "fail";
+        var holder = document.getElementById("results"), group = "", list = null;
+        out.results.forEach(function (r) {
+          if (r.group !== group) {
+            group = r.group;
+            var h = document.createElement("h2"); h.textContent = group; holder.appendChild(h);
+            list = document.createElement("ul"); holder.appendChild(list);
+          }
+          var li = document.createElement("li"); li.className = r.passed ? "pass" : "fail";
+          li.appendChild(document.createTextNode(r.name));
+          if (!r.passed) { var e = document.createElement("span"); e.className = "err"; e.textContent = r.error; li.appendChild(e); }
+          list.appendChild(li);
+        });
+        window.__testsDone = out;
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -56,6 +56,27 @@
     T.eq(s.dpl, 0x34, "DPL low byte");
     T.eq(s.pc, 3, "PC advances by three bytes");
   });
+  
+    T.test("INC DPTR increments the 16-bit data pointer", function () {
+    var cpu = T.newCpu([0x90, 0x12, 0x34, 0xA3]);
+    cpu.step(); // MOV DPTR,#1234
+    var r = cpu.step(); // INC DPTR
+    T.ok(r.ok, "INC DPTR should execute successfully");
+    var s = cpu.snapshot();
+    T.eq(s.dph, 0x12, "DPH remains 0x12");
+    T.eq(s.dpl, 0x35, "DPL increments to 0x35");
+    T.eq(s.pc, 4, "PC advances to byte 4");
+  });
+
+  T.test("INC DPTR wraps from 0xFFFF to 0x0000", function () {
+    var cpu = T.newCpu([0x90, 0xFF, 0xFF, 0xA3]);
+    cpu.step(); // MOV DPTR,#FFFF
+    var r = cpu.step(); // INC DPTR
+    T.ok(r.ok, "INC DPTR should execute successfully");
+    var s = cpu.snapshot();
+    T.eq(s.dph, 0x00, "DPH wraps to 0x00");
+    T.eq(s.dpl, 0x00, "DPL wraps to 0x00");
+  });
 
   T.test("reset restores the start state but keeps the program loaded", function () {
     var cpu = T.newCpu([0x74, 0x05, 0x80, 0xFE]);
@@ -670,6 +691,7 @@
     [0x60, 0x60, 2, "JZ"], [0x64, 0x64, 2, "XRL A,#"], [0x70, 0x70, 2, "JNZ"],
     [0x74, 0x74, 2, "MOV A,#"], [0x75, 0x75, 3, "MOV "], [0x78, 0x7F, 2, "MOV R"], [0x80, 0x80, 2, "SJMP"],
     [0x90, 0x90, 3, "MOV DPTR"],
+    [0xA3, 0xA3, 1, "INC DPTR"],
     [0x94, 0x94, 2, "SUBB A,#"], [0x98, 0x9F, 1, "SUBB A,R"],
     [0xC0, 0xC0, 2, "PUSH"], [0xC3, 0xC3, 1, "CLR C"], [0xD0, 0xD0, 2, "POP"], [0xD3, 0xD3, 1, "SETB C"],
     [0xD8, 0xDF, 2, "DJNZ R"], [0xE4, 0xE4, 1, "CLR A"], [0xE5, 0xE5, 2, "MOV A,"], [0xE6, 0xE7, 1, "MOV A,@R"],

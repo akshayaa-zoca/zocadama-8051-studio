@@ -95,6 +95,24 @@
     T.eq(cpu.sfr[0x90], 0xFE, "P1.0 should be cleared");
     T.eq(cpu.pc, 2, "PC advances by two bytes");
   });
+  
+  T.test("SETB bit sets a bit in bit-addressable RAM and preserves other bits", function () {
+    var cpu = T.newCpu([0xD2, 0x03]); // SETB bit 03h
+    cpu.iram[0x20] = 0xF7;
+    var r = cpu.step();
+    T.ok(r.ok, "SETB bit should execute successfully");
+    T.eq(cpu.iram[0x20], 0xFF, "only bit 3 should be set");
+    T.eq(cpu.pc, 2, "PC advances by two bytes");
+  });
+
+  T.test("SETB bit sets a bit in the bit-addressable P1 SFR", function () {
+    var cpu = T.newCpu([0xD2, 0x90]); // SETB P1.0
+    cpu.sfr[0x90] = 0xFE;
+    var r = cpu.step();
+    T.ok(r.ok, "SETB bit should execute successfully");
+    T.eq(cpu.sfr[0x90], 0xFF, "P1.0 should be set");
+    T.eq(cpu.pc, 2, "PC advances by two bytes");
+  });
 
   T.test("reset restores the start state but keeps the program loaded", function () {
     var cpu = T.newCpu([0x74, 0x05, 0x80, 0xFE]);

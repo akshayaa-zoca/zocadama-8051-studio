@@ -117,7 +117,7 @@
   var bitMask = 1 << (bitAddr & 0x07);
   c.writeDirect(byteAddr, c.readDirect(byteAddr) & ~bitMask);
 });
-  def(0xD3, "SETB C", 1, "CY", "Logic and carry", function (c) { c.setCarry(1); });
+  
   def(0xD2, "SETB bit", 2, "", "Logic and carry", function (c, i) {
     var bitAddr = i.b1;
     var byteAddr = bitAddr < 0x80
@@ -126,6 +126,8 @@
     var bitMask = 1 << (bitAddr & 0x07);
     c.writeDirect(byteAddr, c.readDirect(byteAddr) | bitMask);
   });
+  
+  def(0xD3, "SETB C", 1, "CY", "Logic and carry", function (c) { c.setCarry(1); });
 
   // ---- Jumps and calls -----------------------------------------------------------
   def(0x80, "SJMP {rel1}", 2, "-", "Jumps and calls", function (c, i) { jumpRel(c, i, i.b1); }, true);

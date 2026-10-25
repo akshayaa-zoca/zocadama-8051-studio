@@ -47,6 +47,16 @@
     T.ok(s.iram.every(function (v) { return v === 0; }), "RAM should be cleared");
   });
 
+  T.test("MOV DPTR,#data16 loads DPH and DPL", function () {
+    var cpu = T.newCpu([0x90, 0x12, 0x34]);
+    var r = cpu.step();
+    T.ok(r.ok, "instruction should execute successfully");
+    var s = cpu.snapshot();
+    T.eq(s.dph, 0x12, "DPH high byte");
+    T.eq(s.dpl, 0x34, "DPL low byte");
+    T.eq(s.pc, 3, "PC advances by three bytes");
+  });
+
   T.test("reset restores the start state but keeps the program loaded", function () {
     var cpu = T.newCpu([0x74, 0x05, 0x80, 0xFE]);
     cpu.run({});

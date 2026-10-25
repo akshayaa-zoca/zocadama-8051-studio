@@ -77,6 +77,24 @@
     T.eq(s.dph, 0x00, "DPH wraps to 0x00");
     T.eq(s.dpl, 0x00, "DPL wraps to 0x00");
   });
+  
+  T.test("CLR bit clears a bit in bit-addressable RAM and preserves other bits", function () {
+    var cpu = T.newCpu([0xC2, 0x03]); // CLR bit 03h
+    cpu.iram[0x20] = 0xFF;
+    var r = cpu.step();
+    T.ok(r.ok, "CLR bit should execute successfully");
+    T.eq(cpu.iram[0x20], 0xF7, "only bit 3 should be cleared");
+    T.eq(cpu.pc, 2, "PC advances by two bytes");
+  });
+
+  T.test("CLR bit clears a bit in the bit-addressable P1 SFR", function () {
+    var cpu = T.newCpu([0xC2, 0x90]); // CLR P1.0
+    cpu.sfr[0x90] = 0xFF;
+    var r = cpu.step();
+    T.ok(r.ok, "CLR bit should execute successfully");
+    T.eq(cpu.sfr[0x90], 0xFE, "P1.0 should be cleared");
+    T.eq(cpu.pc, 2, "PC advances by two bytes");
+  });
 
   T.test("reset restores the start state but keeps the program loaded", function () {
     var cpu = T.newCpu([0x74, 0x05, 0x80, 0xFE]);
@@ -693,7 +711,7 @@
     [0x90, 0x90, 3, "MOV DPTR"],
     [0xA3, 0xA3, 1, "INC DPTR"],
     [0x94, 0x94, 2, "SUBB A,#"], [0x98, 0x9F, 1, "SUBB A,R"],
-    [0xC0, 0xC0, 2, "PUSH"], [0xC3, 0xC3, 1, "CLR C"], [0xD0, 0xD0, 2, "POP"], [0xD3, 0xD3, 1, "SETB C"],
+    [0xC0, 0xC0, 2, "PUSH"], [0xC2, 0xC2, 2, "CLR bit"], [0xC3, 0xC3, 1, "CLR C"], [0xD0, 0xD0, 2, "POP"], [0xD3, 0xD3, 1, "SETB C"],
     [0xD8, 0xDF, 2, "DJNZ R"], [0xE4, 0xE4, 1, "CLR A"], [0xE5, 0xE5, 2, "MOV A,"], [0xE6, 0xE7, 1, "MOV A,@R"],
     [0xE8, 0xEF, 1, "MOV A,R"], [0xF4, 0xF4, 1, "CPL A"], [0xF5, 0xF5, 2, "MOV "], [0xF6, 0xF7, 1, "MOV @R"], [0xF8, 0xFF, 1, "MOV R"]
   ];

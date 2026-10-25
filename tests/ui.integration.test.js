@@ -221,7 +221,7 @@
       var res = Z.mountOpcodeReference(host);
       T.eq(res.opcodes, Object.keys(Z.OPCODES).length, "opcode count");
       T.includes(host.textContent, "ADD A,#data"); T.includes(host.textContent, "MOV A,Rn"); T.includes(host.textContent, "DJNZ Rn,rel");
-      T.includes(host.textContent, "104 opcodes are implemented");
+      T.includes(host.textContent, "107 opcodes are implemented");
     } finally { host.remove(); }
   });
 })(typeof globalThis !== "undefined" ? globalThis : this);

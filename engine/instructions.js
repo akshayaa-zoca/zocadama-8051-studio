@@ -109,6 +109,14 @@
   def(0xE4, "CLR A", 1, "P", "Logic and carry", function (c) { c.setA(0); });
   def(0xF4, "CPL A", 1, "P", "Logic and carry", function (c) { c.setA((~c.getA()) & 0xFF); });
   def(0xC3, "CLR C", 1, "CY", "Logic and carry", function (c) { c.setCarry(0); });
+  def(0xC2, "CLR bit", 2, "", "Logic and carry", function (c, i) {
+  var bitAddr = i.b1;
+  var byteAddr = bitAddr < 0x80
+    ? (0x20 + Math.floor(bitAddr / 8))
+    : (bitAddr & 0xF8);
+  var bitMask = 1 << (bitAddr & 0x07);
+  c.writeDirect(byteAddr, c.readDirect(byteAddr) & ~bitMask);
+});
   def(0xD3, "SETB C", 1, "CY", "Logic and carry", function (c) { c.setCarry(1); });
 
   // ---- Jumps and calls -----------------------------------------------------------

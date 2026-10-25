@@ -55,6 +55,12 @@
   c.writeDirect(0x83, i.b1);
   c.writeDirect(0x82, i.b2);
 });
+    def(0xA3, "INC DPTR", 1, "", "Moves", function (c) {
+    var dptr = (c.readDirect(0x83) << 8) | c.readDirect(0x82);
+    dptr = (dptr + 1) & 0xFFFF;
+    c.writeDirect(0x83, (dptr >> 8) & 0xFF);
+    c.writeDirect(0x82, dptr & 0xFF);
+  });
   def(0xE5, "MOV A,{dir1}", 2, "P", "Moves", function (c, i) { c.setA(c.readDirect(i.b1)); });
   def(0xF5, "MOV {dir1},A", 2, "P if ACC/PSW", "Moves", function (c, i) { c.writeDirect(i.b1, c.getA()); });
   for (n = 0; n < 8; n++) {
